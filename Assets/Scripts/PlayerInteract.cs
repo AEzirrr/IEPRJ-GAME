@@ -5,44 +5,52 @@ using UnityEngine;
 public class PlayerInteract : MonoBehaviour
 {
     private bool _isInRange;
-    private bool _isEquipped = false;
+    private ItemInteract _currentItem;
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.E) && this._isInRange && !this._isEquipped)
+        if (Input.GetKeyUp(KeyCode.E) && _isInRange && _currentItem != null && !_currentItem._isEquipped && (TransformProperties.Form == ETransform.HUMAN_FORM))
         {
-            this._isEquipped = true;
-            EventBroadcaster.Instance.PostEvent(EventNames.ItemInteraction.ON_ITEM_PICKUP);
+            _currentItem.Pickup();
+            Debug.Log("Item picked up");
+        }
+        else if (Input.GetKeyUp(KeyCode.E) && _isInRange && _currentItem != null && _currentItem._isEquipped)
+        {
+            _currentItem.Drop();
+            Debug.Log("Item dropped");
+        }
+        else if (TransformProperties.Form == ETransform.ORB_FORM && _currentItem != null)
+        {
+            _currentItem.Drop();
+            Debug.Log("Item dropped");
         }
 
-        else if(Input.GetKeyUp(KeyCode.E) && this._isInRange && this._isEquipped)
+        if (_isInRange)
         {
-            this._isEquipped = false;
-            EventBroadcaster.Instance.PostEvent(EventNames.ItemInteraction.ON_ITEM_DROP);
+            Debug.Log("IN RANGE");
         }
     }
-
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Interactable"))
+        if (other.gameObject.CompareTag("Interactable"))
         {
-            this._isInRange = true;
+            _isInRange = true;
+            _currentItem = other.gameObject.GetComponent<ItemInteract>();
+            Debug.Log("Entered range of item: " + other.gameObject.name);
         }
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.CompareTag("Interactable"))
-        {
-            this._isInRange = true;
-        }
-    }
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Interactable"))
+        if (other.gameObject.CompareTag("Interactable"))
         {
-            this._isInRange = false;
+            if (_currentItem != null && _currentItem.gameObject == other.gameObject)
+            {
+                _currentItem = null;
+                _isInRange = false;
+                Debug.Log("Exited range of item: " + other.gameObject.name);
+            }
         }
     }
 }

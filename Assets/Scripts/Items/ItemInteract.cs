@@ -15,40 +15,35 @@ public class ItemInteract : MonoBehaviour
 
     private Rigidbody _rb;
 
-    private bool _isEquipped = false;
+    public bool _isEquipped = false;
+
     private void Start()
     {
-        EventBroadcaster.Instance.AddObserver(EventNames.ItemInteraction.ON_ITEM_PICKUP, this.OnPickup);
-        EventBroadcaster.Instance.AddObserver(EventNames.ItemInteraction.ON_ITEM_DROP, this.OnDrop);
-    }
-
-    private void OnDestroy()
-    {
-        EventBroadcaster.Instance.RemoveObserver(EventNames.ItemInteraction.ON_ITEM_PICKUP);
-        EventBroadcaster.Instance.RemoveObserver(EventNames.ItemInteraction.ON_ITEM_DROP);
+        _rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        if(this._isEquipped)
+        if (_isEquipped)
         {
             Vector3 targetPosition = _player.position;
             targetPosition.y = _player.position.y;
-            transform.position = Vector3.Lerp(transform.position, targetPosition, this._followSpeed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, _followSpeed * Time.deltaTime);
         }
     }
 
-    private void OnPickup()
+    public void Pickup()
     {
-        this._rb = this.gameObject.GetComponentInChildren<Rigidbody>();
-        this._rb.useGravity = false;
-        this._isEquipped = true;
+        _rb.useGravity = false;
+        _rb.isKinematic = true; 
+        _isEquipped = true;
+        Debug.Log("Item equipped: " + gameObject.name);
     }
 
-    private void OnDrop()
+    public void Drop()
     {
-        this._rb = this.gameObject.GetComponentInChildren<Rigidbody>();
-        this._rb.useGravity = true;
-        this._isEquipped = false;
+        _rb.useGravity = true;
+        _rb.isKinematic = false; 
+        Debug.Log("Item dropped: " + gameObject.name);
     }
 }
