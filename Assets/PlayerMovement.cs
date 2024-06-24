@@ -87,8 +87,6 @@ public class PlayerMovement : MonoBehaviour
 
         // Debugging ground detection
         Debug.DrawRay(rayOrigin, Vector3.down * (playerHeight * 0.5f + 0.2f), grounded ? Color.green : Color.red);
-        Debug.Log("Grounded: " + grounded);
-        Debug.Log("Ready to Jump: " + readyToJump);
 
         MyInput();
         SpeedControl();
@@ -101,7 +99,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerAnimation.SetBool("isRunning", true);
                 playerAnimation.SetBool("Jumped", false);
-                Debug.Log("Run animation triggered!");
             }
         }
         else
@@ -110,7 +107,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerAnimation.SetBool("isRunning", false);
                 playerAnimation.SetBool("Jumped", false);
-                Debug.Log("Idle animation triggered!");
             }
         }
 

@@ -50,6 +50,12 @@ public class EventNames {
 		public const string ON_FIRST_SCAN = "FIRST_TARGET_SCAN";
 		public const string ON_FINAL_SCAN = "ON_FINAL_SCAN";
 	}
+
+	public class ItemInteraction
+	{
+		public const string ON_ITEM_PICKUP = "ON_ITEM_PICKUP";
+        public const string ON_ITEM_DROP = "ON_ITEM_DROP";
+    }
 }
 
 
