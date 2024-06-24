@@ -9,6 +9,7 @@ public class PlayerAbility : MonoBehaviour
 
     [SerializeField] private AudioClip orbTransform;
     [SerializeField] private AudioClip playerTransform;
+
     private bool _isOrb;
 
     void Start()
@@ -18,7 +19,7 @@ public class PlayerAbility : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(KeyCode.Q))
         {
             if(this._isOrb)
             {
@@ -26,6 +27,7 @@ public class PlayerAbility : MonoBehaviour
                 this._orbModel.SetActive(false);
                 this._playerModel.SetActive(true);
                 this._isOrb = false;
+                TransformProperties.Form = ETransform.HUMAN_FORM;
             }
             else
             {
@@ -33,6 +35,7 @@ public class PlayerAbility : MonoBehaviour
                 this._orbModel.SetActive(true);
                 this._playerModel.SetActive(false);
                 this._isOrb = true;
+                TransformProperties.Form = ETransform.ORB_FORM;
             }
         }
     }

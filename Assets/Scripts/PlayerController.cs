@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Player Model")]
+    [SerializeField] private Transform playerModel;
+    [SerializeField] private Transform slashPosition;
+
     public float speed = 20f;
     private Vector2 move;
 
@@ -15,6 +19,22 @@ public class PlayerController : MonoBehaviour
     public float jumpCooldown;
     public float groundDrag = 5f;
     public float raycastHeight = 1f;
+
+
+    [Header("Attack")]
+    public float attackCooldown = 1f; // Duration of attack cooldown
+    private bool readyToAttack = true; // Whether the player can attack
+    private float nextAttackTime = 0f; // Next time the player can attack
+
+
+    public Transform orientation;
+    
+
+
+    [Header("Attack")]
+    public GameObject slashEffect;
+
+
 
     private Rigidbody rb;
 
@@ -42,6 +62,15 @@ public class PlayerController : MonoBehaviour
         if (playerAnimation == null)
         {
             Debug.LogError("Animator component not found on " + gameObject.name);
+        }
+
+        if (slashEffect == null)
+        {
+            Debug.LogError("Slash effect game object not assigned in " + gameObject.name);
+        }
+        else
+        {
+            slashEffect.SetActive(false); // Ensure the slash effect is initially inactive
         }
     }
 
@@ -74,6 +103,17 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Idle animation triggered!");
             }
         }
+
+        if (slashEffect != null && playerModel != null)
+        {
+            slashEffect.transform.rotation = playerModel.rotation;
+        }
+
+        if (Input.GetMouseButtonDown(0) && readyToAttack)
+        {
+            ActivateSlashEffect();
+        }
+
 
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
@@ -126,5 +166,41 @@ public class PlayerController : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void ActivateSlashEffect()
+    {
+        if (slashEffect != null && orientation != null && slashPosition != null)
+        {
+            slashEffect.transform.position = slashPosition.position;
+            slashEffect.transform.rotation = Quaternion.LookRotation(orientation.forward);
+
+            slashEffect.SetActive(true);
+            Debug.Log("Slash effect activated!");
+
+            Invoke(nameof(DeactivateSlashEffect), 0.2f);
+            readyToAttack = false;
+            nextAttackTime = Time.time + attackCooldown;
+            Invoke(nameof(ResetAttack), attackCooldown);
+        }
+        else
+        {
+            Debug.LogError("Slash effect, orientation transform, or slash position not assigned!");
+        }
+    }
+
+
+    private void DeactivateSlashEffect()
+    {
+        if (slashEffect != null)
+        {
+            slashEffect.SetActive(false);
+            Debug.Log("Slash effect deactivated!");
+        }
+    }
+
+    private void ResetAttack()
+    {
+        readyToAttack = true;
     }
 }

@@ -13,6 +13,11 @@ public class PlayerMovement : MonoBehaviour
 
     public float groundDrag;
 
+    [Header("Attack")]
+    public float attackCooldown = 1f; // Duration of attack cooldown
+    private bool readyToAttack = true; // Whether the player can attack
+    private float nextAttackTime = 0f; // Next time the player can attack
+
     [Header("Jumping")]
     public float jumpForce;
     public float jumpCooldown;
@@ -28,9 +33,15 @@ public class PlayerMovement : MonoBehaviour
     bool grounded;
 
     public Transform orientation;
+    public Transform slashPosition;
+    public Transform blockPosition;
 
     [Header("Raycast")]
     public Transform raycastOrigin; // Custom raycast origin
+
+    [Header("Attack")]
+    public GameObject slashEffect;
+    public GameObject blockShield;
 
     float horizontalInput;
     float verticalInput;
@@ -48,6 +59,24 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
         readyToJump = true; // Ensure readyToJump is true at start
         playerAnimation = GetComponent<Animator>();
+
+        if (slashEffect == null)
+        {
+            Debug.LogError("Slash effect game object not assigned in " + gameObject.name);
+        }
+        else
+        {
+            slashEffect.SetActive(false); // Ensure the slash effect is initially inactive
+        }
+
+        if (blockShield == null)
+        {
+            Debug.LogError("Block Shield game object not assigned in " + gameObject.name);
+        }
+        else
+        {
+            blockShield.SetActive(false);
+        }
     }
 
     private void Update()
@@ -85,6 +114,32 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
+        if (slashEffect != null && playerModel != null)
+        {
+            slashEffect.transform.rotation = playerModel.rotation;
+        }
+
+        // Check if the block shield should be active
+        if (Input.GetMouseButton(1) && TransformProperties.Form == ETransform.HUMAN_FORM)
+        {
+            ActivateBlockShield();
+        }
+        else if (Input.GetMouseButtonUp(1))
+        {
+            DeactivateBlockShield();
+        }
+
+        if (blockShield != null && blockShield.activeSelf)
+        {
+            blockShield.transform.position = blockPosition.position;
+            blockShield.transform.rotation = playerModel.rotation;
+        }
+
+        if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM)
+        {
+            ActivateSlashEffect();
+        }
+
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
@@ -103,6 +158,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void FixedUpdate()
     {
         MovePlayer();
@@ -118,9 +174,8 @@ public class PlayerMovement : MonoBehaviour
         if (inputDir != Vector3.zero)
         {
             playerModel.forward = Vector3.Slerp(playerModel.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
+   
         }
-
-    
     }
 
     private void MovePlayer()
@@ -157,5 +212,65 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    private void ActivateSlashEffect()
+    {
+        if (slashEffect != null && orientation != null && slashPosition != null)
+        {
+            slashEffect.transform.position = slashPosition.position;
+            slashEffect.transform.rotation = Quaternion.LookRotation(orientation.forward);
+
+            slashEffect.SetActive(true);
+            Debug.Log("Slash effect activated!");
+
+            Invoke(nameof(DeactivateSlashEffect), 0.2f);
+            readyToAttack = false;
+            nextAttackTime = Time.time + attackCooldown;
+            Invoke(nameof(ResetAttack), attackCooldown);
+        }
+        else
+        {
+            Debug.LogError("Slash effect, orientation transform, or slash position not assigned!");
+        }
+    }
+
+    private void DeactivateSlashEffect()
+    {
+        if (slashEffect != null)
+        {
+            slashEffect.SetActive(false);
+            Debug.Log("Slash effect deactivated!");
+        }
+    }
+
+    private void ResetAttack()
+    {
+        readyToAttack = true;
+    }
+
+    private void ActivateBlockShield()
+    {
+        if (blockShield != null && orientation != null && blockPosition != null)
+        {
+            blockShield.transform.position = blockPosition.position;
+            blockShield.transform.rotation = playerModel.rotation;
+
+            blockShield.SetActive(true);
+            Debug.Log("Block Shield activated!");
+        }
+        else
+        {
+            Debug.LogError("Block Shield, orientation transform, or block position not assigned!");
+        }
+    }
+
+    private void DeactivateBlockShield()
+    {
+        if (blockShield != null)
+        {
+            blockShield.SetActive(false);
+            Debug.Log("Block Shield deactivated!");
+        }
     }
 }
