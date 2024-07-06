@@ -15,7 +15,7 @@ public class Projectile : MonoBehaviour
         this._firingPoint = transform.position;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         this._elapsedTime += Time.deltaTime;
         this.MoveProjectile();
@@ -29,5 +29,19 @@ public class Projectile : MonoBehaviour
     private void MoveProjectile()
     {
         transform.Translate(Vector3.forward * _projectileSpeed * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Pushable"))
+        {
+            ContactPoint contactPoint = collision.contacts[0];
+            Vector3 hitNormal = contactPoint.normal;
+            Vector3 forceDirection = -hitNormal;
+
+            collision.rigidbody.AddForce(forceDirection * 1000f, ForceMode.Force);
+
+            Destroy(this.gameObject);
+        }
     }
 }

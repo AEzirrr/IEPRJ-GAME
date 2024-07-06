@@ -24,7 +24,7 @@ public class ItemInteract : MonoBehaviour
 
     private void Update()
     {
-        if (_isEquipped)
+        if(_isEquipped)
         {
             Vector3 targetPosition = _player.position;
             targetPosition.y = _player.position.y;

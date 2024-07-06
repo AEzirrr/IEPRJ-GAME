@@ -7,6 +7,7 @@ TagManager:
   - Fire
   - Interactable
   - Projectile
+  - Pushable
   layers:
   - Default
   - TransparentFX
