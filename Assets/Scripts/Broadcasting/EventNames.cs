@@ -56,6 +56,14 @@ public class EventNames {
 		public const string ON_ITEM_PICKUP = "ON_ITEM_PICKUP";
         public const string ON_ITEM_DROP = "ON_ITEM_DROP";
     }
+
+    public class PuzzleTest_1
+    {
+		public const string ON_CORRECT_COLOR = "ON_CORRECT_COLOR";
+        public const string ON_INCORRECT_COLOR = "ON_INCORRECT_COLOR";
+		public const string PUZZLETEST_COMPLETE = "PUZZLETEST_COMPLETE";
+        public const string CHECKER_EMPTY = "CHECKER_EMPTY";
+    }
 }
 
 
