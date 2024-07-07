@@ -43,5 +43,13 @@ public class Projectile : MonoBehaviour
 
             Destroy(this.gameObject);
         }
+
+        if (collision.gameObject.CompareTag("Note"))
+        {
+            Debug.Log("NOTE HIT");
+            Destroy(this.gameObject);
+        }
+
     }
+
 }

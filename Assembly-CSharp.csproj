@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerAbility.cs" />
+    <Compile Include="Assets\Prefabs\Key\KeySpin.cs" />
     <Compile Include="Assets\Scripts\Views\BasicHudScreen.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_1\ChestTest.cs" />
     <Compile Include="Assets\Prefabs\BrokenVector\LowPolyDungeon\Demo Scenes\ScreenshotMaker.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Assets\Scripts\ETransform.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\DialogInterface.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\ViewAnimation\IViewAnimation.cs" />
+    <Compile Include="Assets\Scripts\PuzzleTest_2\PuzzleTarget.cs" />
     <Compile Include="Assets\ThirdPersonCam.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\EventBroadcaster.cs" />
     <Compile Include="Assets\Prefabs\BrokenVector\LowPolyDungeon\Demo Scenes\MouseCamLook.cs" />
@@ -80,16 +82,19 @@
     <Compile Include="Assets\Scripts\ViewHandler\Popups\NotificationDialog.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\View.cs" />
     <Compile Include="Assets\Scripts\LoadManager\LoadManager.cs" />
+    <Compile Include="Assets\Scripts\PuzzleTest_2\PatternChecker.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\BlackOverlay.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\TwoChoiceDialog.cs" />
     <Compile Include="Assets\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Items\ItemInteract.cs" />
+    <Compile Include="Assets\Scripts\PuzzleTest_2\DoorController.cs" />
     <Compile Include="Assets\Scripts\PlayerInteract.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\TimedDialog.cs" />
     <Compile Include="Assets\Scripts\LoadManager\SceneNames.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\EventNames.cs" />
     <Compile Include="Assets\Scripts\SFXManager.cs" />
+    <Compile Include="Assets\Scripts\PuzzleTest_2\PuzzleTest2Controller.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\ViewAnimation\DOViewAnimation.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_1\PuzzleTest1Controller.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\ViewHandler.cs" />

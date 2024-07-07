@@ -63,7 +63,7 @@ public class PlayerAbility : MonoBehaviour
             this.MouseAimInput();
             if(Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if(manaSystem.CanShoot(2f))
+                if(manaSystem.CanShoot(1f))
                 {
                     this.Shoot();
                 }
@@ -74,7 +74,7 @@ public class PlayerAbility : MonoBehaviour
     private void Shoot()
     {
         Instantiate(this._projectile, this._spawnPos.position, this._spawnPos.rotation);
-        manaSystem.ShootProjectile(2f);
+        manaSystem.ShootProjectile(1f);
     }
 
     private void MouseAimInput()
