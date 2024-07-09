@@ -15,12 +15,12 @@ public class DoorController : MonoBehaviour
     {
         initialPosition = transform.position;
         targetPosition = new Vector3(initialPosition.x, targetYPosition, initialPosition.z);
-        EventBroadcaster.Instance.AddObserver(EventNames.PuzzleTest_2.PUZZLETEST_COMPLETE, this.OnDoorOpen);
+        EventBroadcaster.Instance.AddObserver(EventNames.PuzzleTest_2.PUZZLETEST2_COMPLETE, this.OnDoorOpen);
     }
 
     private void OnDestroy()
     {
-        EventBroadcaster.Instance.RemoveObserver(EventNames.PuzzleTest_2.PUZZLETEST_COMPLETE);
+        EventBroadcaster.Instance.RemoveObserver(EventNames.PuzzleTest_2.PUZZLETEST2_COMPLETE);
     }
 
     void Update()

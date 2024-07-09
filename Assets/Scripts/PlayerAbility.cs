@@ -22,7 +22,12 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField]
     private Transform _spawnPos;
 
+    [SerializeField]
+    private float transformCooldown = 10f;
+
     private bool _isOrb;
+    private bool _isOnCooldown;
+    private float _cooldownTimer;
 
     public ManaSystem manaSystem;
 
@@ -33,39 +38,55 @@ public class PlayerAbility : MonoBehaviour
 
     void Start()
     {
-        this._orbModel.SetActive(false);
-        this._isOrb = false;
+        _orbModel.SetActive(false);
+        _isOrb = false;
+        _isOnCooldown = false;
     }
+
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (_isOnCooldown)
         {
-            if(this._isOrb)
+            _cooldownTimer -= Time.deltaTime;
+            if (_cooldownTimer <= 0f)
+            {
+                _isOnCooldown = false;
+                _cooldownTimer = 0f;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) && !_isOnCooldown)
+        {
+            if (_isOrb)
             {
                 SFXManager.instance.PlaySfxClip(playerTransform, transform, .5f);
-                this._orbModel.SetActive(false);
-                this._playerModel.SetActive(true);
-                this._isOrb = false;
+                _orbModel.SetActive(false);
+                _playerModel.SetActive(true);
+                _isOrb = false;
                 TransformProperties.Form = ETransform.HUMAN_FORM;
             }
             else
             {
                 SFXManager.instance.PlaySfxClip(orbTransform, transform, .5f);
-                this._orbModel.SetActive(true);
-                this._playerModel.SetActive(false);
-                this._isOrb = true;
+                _orbModel.SetActive(true);
+                _playerModel.SetActive(false);
+                _isOrb = true;
                 TransformProperties.Form = ETransform.ORB_FORM;
             }
+
+
+            _isOnCooldown = true;
+            _cooldownTimer = transformCooldown;
         }
 
-        if(this._isOrb)
+        if (_isOrb)
         {
-            this.MouseAimInput();
-            if(Input.GetKeyDown(KeyCode.Mouse0))
+            MouseAimInput();
+            if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if(manaSystem.CanShoot(1f))
+                if (manaSystem.CanShoot(1f))
                 {
-                    this.Shoot();
+                    Shoot();
                 }
             }
         }
@@ -73,18 +94,18 @@ public class PlayerAbility : MonoBehaviour
 
     private void Shoot()
     {
-        Instantiate(this._projectile, this._spawnPos.position, this._spawnPos.rotation);
+        Instantiate(_projectile, _spawnPos.position, _spawnPos.rotation);
         manaSystem.ShootProjectile(1f);
     }
 
     private void MouseAimInput()
     {
         RaycastHit _hit;
-        Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);   
+        Ray _ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(_ray, out _hit))
+        if (Physics.Raycast(_ray, out _hit))
         {
-            this._spawnPos.LookAt(new Vector3(_hit.point.x, this._spawnPos.position.y, _hit.point.z));
+            _spawnPos.LookAt(new Vector3(_hit.point.x, _spawnPos.position.y, _hit.point.z));
         }
     }
 }

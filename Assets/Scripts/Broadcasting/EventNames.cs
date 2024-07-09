@@ -67,7 +67,7 @@ public class EventNames {
 
     public class PuzzleTest_2
     {
-        public const string PUZZLETEST_COMPLETE = "PUZZLETEST_COMPLETE";
+        public const string PUZZLETEST2_COMPLETE = "PUZZLETEST2_COMPLETE";
 		public const string ON_RESET_TARGET = "ON_RESET_TARGET";
     }
 

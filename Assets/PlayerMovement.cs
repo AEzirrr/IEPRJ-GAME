@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
 
-    private Animator playerAnimation;
+    public Animator playerAnimation;
 
     // Start is called before the first frame update
     private void Start()
@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         readyToJump = true; // Ensure readyToJump is true at start
-        playerAnimation = GetComponent<Animator>();
 
         if (slashEffect == null)
         {
