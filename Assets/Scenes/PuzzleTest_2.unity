@@ -12356,6 +12356,7 @@ MonoBehaviour:
   playerTransform: {fileID: 8300000, guid: fabc2ca753dc4f748b51cf3881d18155, type: 3}
   _projectile: {fileID: 5848622266333203613, guid: 991bbe2e94b7e3b4f906f1c6c5e34711, type: 3}
   _spawnPos: {fileID: 5698246076661108543}
+  transformCooldown: 10
   manaSystem: {fileID: 7786871155600010111}
 --- !u!4 &8399065239105282604
 Transform:

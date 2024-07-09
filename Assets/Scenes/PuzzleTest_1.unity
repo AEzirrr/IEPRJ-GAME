@@ -356,6 +356,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 13400000, guid: f9fa350315758d547bd2ae3e15d84326, type: 2}
+    - target: {fileID: 8336322228255298043, guid: 42cb8e8a9db64df4c82475c5effa846f, type: 3}
+      propertyPath: transformCooldown
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

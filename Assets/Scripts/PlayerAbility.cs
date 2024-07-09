@@ -22,8 +22,12 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField]
     private Transform _spawnPos;
 
-    private bool _isOrb;
+    [SerializeField]
+    private float transformCooldown = 10f;
 
+    private bool _isOrb;
+    private bool _isOnCooldown;
+    private float _cooldownTimer;
     public ManaSystem manaSystem;
 
     private void Awake()
@@ -35,12 +39,22 @@ public class PlayerAbility : MonoBehaviour
     {
         this._orbModel.SetActive(false);
         this._isOrb = false;
+        this._isOnCooldown = false;
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (this._isOnCooldown)
         {
-            if(this._isOrb)
+            _cooldownTimer -= Time.deltaTime;
+            if (_cooldownTimer <= 0f)
+            {
+                _isOnCooldown = false;
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Q) && !_isOnCooldown)
+        {
+            if (this._isOrb)
             {
                 SFXManager.instance.PlaySfxClip(playerTransform, transform, .5f);
                 this._orbModel.SetActive(false);
@@ -56,6 +70,9 @@ public class PlayerAbility : MonoBehaviour
                 this._isOrb = true;
                 TransformProperties.Form = ETransform.ORB_FORM;
             }
+
+            _isOnCooldown = true;
+            _cooldownTimer = transformCooldown;
         }
 
         if(this._isOrb)
