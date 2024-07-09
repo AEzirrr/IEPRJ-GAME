@@ -48,6 +48,10 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 moveDirection;
 
+    [Header("LevelAdvance")]
+    private GameObject interactingObject;
+    private bool canTeleport = false;
+
     Rigidbody rb;
 
     public Animator playerAnimation;
@@ -89,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
 
         MyInput();
         SpeedControl();
+        CheckForInteraction();
 
         bool isMoving = moveDirection.magnitude > 0.1f;
 
@@ -266,6 +271,64 @@ public class PlayerMovement : MonoBehaviour
         {
             blockShield.SetActive(false);
             Debug.Log("Block Shield deactivated!");
+        }
+    }
+
+    public void TeleportPlayer(string spawnPointName)
+    {
+        GameObject spawnPoint = GameObject.Find(spawnPointName);
+        if (spawnPoint != null)
+        {
+            transform.position = spawnPoint.transform.position;
+            Debug.Log($"Player teleported to {spawnPointName} at {spawnPoint.transform.position}");
+        }
+        else
+        {
+            Debug.LogError($"Spawn point {spawnPointName} not found!");
+        }
+    }
+
+    private void CheckForInteraction()
+    {
+        if (canTeleport && Input.GetKeyDown(KeyCode.E))
+        {
+            HandleTeleportation();
+            Debug.Log("Pressed E to teleport.");
+        }
+    }
+
+    private void HandleTeleportation()
+    {
+        if (interactingObject != null)
+        {
+            if (interactingObject.CompareTag("Level1_Exit"))
+            {
+                TeleportPlayer("Level2_Spawn");
+                Debug.Log("Teleported to Level2_Spawn.");
+            }
+            
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Level1_Exit"))
+        {
+            canTeleport = true;
+            interactingObject = other.gameObject;
+
+            Debug.Log("Entered collider.");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Level1_Exit"))
+        {
+            canTeleport = false;
+            interactingObject = null;
+
+            Debug.Log("Exited collider.");
         }
     }
 }
