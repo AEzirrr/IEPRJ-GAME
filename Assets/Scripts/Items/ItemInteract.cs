@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ItemInteract : MonoBehaviour
 {
-    [SerializeField]
     private Transform _player;
 
     [SerializeField]
@@ -20,6 +19,7 @@ public class ItemInteract : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        this._player = GameObject.Find("ItemTargetPos").GetComponent<Transform>();
     }
 
     private void Update()

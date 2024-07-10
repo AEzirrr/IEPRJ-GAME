@@ -12,9 +12,11 @@ GameObject:
   - component: {fileID: 3768888242050645005}
   - component: {fileID: 775438718477553896}
   - component: {fileID: 3844068756946141656}
+  - component: {fileID: 7507665028412855938}
+  - component: {fileID: 3587487904164015165}
   m_Layer: 0
   m_Name: KEY
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,6 +99,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5214d6777d6000d4c81997eabb0629e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7507665028412855938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307132052352978593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d41e0d66ec4a5db41a679221931604cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _followDistance: 1
+  _followSpeed: 2
+  _isEquipped: 0
+--- !u!135 &3587487904164015165
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7307132052352978593}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1.3
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8135617281259334964
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,7 +150,7 @@ GameObject:
   - component: {fileID: 1139587787930182608}
   m_Layer: 0
   m_Name: key Prefab
-  m_TagString: Untagged
+  m_TagString: Interactable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2191,8 +2229,8 @@ MonoBehaviour:
   - {x: -0.6463526, y: -0.000000104907336}
   - {x: -0.000000104907336, y: -0.14265847}
   - {x: -0.000000104907336, y: 0.000000018776253}
-  - {x: -0.24807405, y: 0.0000010728836}
-  - {x: -0.24807346, y: 2.5000012}
+  - {x: -0.24807405, y: 0.0000009536743}
+  - {x: -0.24807346, y: 2.500001}
   - {x: -0.10112715, y: 0.000000834465}
   - {x: -0.10112655, y: 2.500001}
   - {x: -0.15372342, y: 0.0000009536743}
@@ -2209,7 +2247,7 @@ MonoBehaviour:
   - {x: 0.23098284, y: 2.5000005}
   - {x: -0.101127565, y: 0.0000009536743}
   - {x: -0.10112715, y: 2.500001}
-  - {x: 0.045819223, y: 0.0000009536743}
+  - {x: 0.045819223, y: 0.0000010728836}
   - {x: 0.04581976, y: 2.500001}
   - {x: -0.25000006, y: -0.12499988}
   - {x: -0.12500007, y: -0.12499964}
@@ -2504,10 +2542,10 @@ MonoBehaviour:
   - {x: -0.29652917, y: 0.0000021963585, z: 0.95502377, w: -1}
   - {x: -0.109074645, y: -0.92988545, z: 0.35130596, w: -1}
   - {x: 0.000003047531, y: -1, z: 0.0000025806241, w: -1}
-  - {x: 0.000002799665, y: -1, z: 0.000003887175, w: -1}
-  - {x: 0.0000027259891, y: -1, z: 0.000004141991, w: -1}
-  - {x: -0.9510556, y: -0.30901992, z: 0.0000049138343, w: -1}
-  - {x: -0.9510556, y: -0.30901986, z: 0.000005168598, w: -1}
+  - {x: 0.000002799665, y: -1, z: 0.0000028844222, w: -1}
+  - {x: 0.0000027259891, y: -1, z: 0.0000026378616, w: -1}
+  - {x: -0.9510556, y: -0.30901992, z: 0.0000034097047, w: -1}
+  - {x: -0.9510556, y: -0.30901986, z: 0.0000031630925, w: -1}
   - {x: -0.9510556, y: -0.3090199, z: 0.000002356122, w: -1}
   - {x: -0.9510556, y: -0.30901995, z: 0.0000013492938, w: -1}
   - {x: -0.58778775, y: 0.8090152, z: -0.000002962531, w: -1}
@@ -2520,9 +2558,9 @@ MonoBehaviour:
   - {x: 0.58778286, y: 0.8090187, z: -0.000000044462457, w: -1}
   - {x: 0.9510574, y: -0.3090143, z: 0.0000021985995, w: -1}
   - {x: 0.9510574, y: -0.3090143, z: 0.0000016897452, w: -1}
-  - {x: 0.9510574, y: -0.30901423, z: -0.0000016972211, w: -1}
-  - {x: 0.9510574, y: -0.30901435, z: -0.0000016897438, w: -1}
-  - {x: 0.0000027996648, y: -1, z: 0.0000031320924, w: -1}
+  - {x: 0.9510574, y: -0.30901423, z: -0.0000026999737, w: -1}
+  - {x: 0.9510574, y: -0.30901435, z: -0.0000021911203, w: -1}
+  - {x: 0.0000027996648, y: -1, z: 0.0000026307162, w: -1}
   - {x: 0.0000026523135, y: -1, z: 0.0000031279635, w: -1}
   - {x: -1, y: -0.0000009536697, z: 0.0000019073433, w: -1}
   - {x: -1, y: -0.0000009536697, z: 0.0000019073433, w: -1}
