@@ -27,7 +27,7 @@ public class PatternChecker : MonoBehaviour
             noteSequence[6] == 7 && noteSequence[7] == 8)
         {
             Debug.Log("CORRECT PATTERN");
-            EventBroadcaster.Instance.PostEvent(EventNames.PuzzleTest_2.PUZZLETEST_COMPLETE);
+            EventBroadcaster.Instance.PostEvent(EventNames.PuzzleTest_2.PUZZLETEST2_COMPLETE);
         }
         else
         {

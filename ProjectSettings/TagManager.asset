@@ -9,6 +9,8 @@ TagManager:
   - Projectile
   - Pushable
   - Note
+  - Level1_Exit
+  - Level2_Spawn
   layers:
   - Default
   - TransparentFX
