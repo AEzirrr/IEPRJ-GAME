@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6448838199136535114}
   - component: {fileID: 3827156821043429838}
   m_Layer: 0
-  m_Name: Rock
+  m_Name: LargeRock2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4371
+  m_VersionIndex: 4377
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
