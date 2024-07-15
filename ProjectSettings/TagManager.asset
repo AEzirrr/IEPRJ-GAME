@@ -11,6 +11,7 @@ TagManager:
   - Note
   - Level1_Exit
   - Level2_Spawn
+  - ItemTargetPos
   layers:
   - Default
   - TransparentFX
