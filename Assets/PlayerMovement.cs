@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -85,8 +86,8 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // Use custom raycast origin if set, otherwise default to player's position
-        Vector3 rayOrigin = raycastOrigin ? raycastOrigin.position : transform.position;
-        grounded = Physics.Raycast(rayOrigin, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        Vector3 rayOrigin = raycastOrigin.position;
+        grounded = Physics.Raycast(rayOrigin, Vector3.down, playerHeight * 0.5f, whatIsGround);
 
         // Debugging ground detection
         Debug.DrawRay(rayOrigin, Vector3.down * (playerHeight * 0.5f + 0.2f), grounded ? Color.green : Color.red);
@@ -97,7 +98,8 @@ public class PlayerMovement : MonoBehaviour
 
         bool isMoving = moveDirection.magnitude > 0.1f;
 
-        if (isMoving)
+
+        if (isMoving && readyToJump)
         {
             if (playerAnimation != null)
             {
@@ -137,7 +139,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM)
         {
+            playerAnimation.SetBool("Attack", true);
             ActivateSlashEffect();
+            StartCoroutine(ResetAttackAnimation());
         }
 
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
@@ -249,6 +253,12 @@ public class PlayerMovement : MonoBehaviour
         readyToAttack = true;
     }
 
+    private IEnumerator ResetAttackAnimation()
+    {
+        yield return new WaitForSeconds(0.3f);
+        playerAnimation.SetBool("Attack", false);
+    }
+
     private void ActivateBlockShield()
     {
         if (blockShield != null && orientation != null && blockPosition != null)
@@ -329,6 +339,21 @@ public class PlayerMovement : MonoBehaviour
             interactingObject = null;
 
             Debug.Log("Exited collider.");
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Pushable")){
+            playerAnimation.SetBool("isPushing", true);
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Pushable"))
+        {
+            playerAnimation.SetBool("isPushing", false);
         }
     }
 }
