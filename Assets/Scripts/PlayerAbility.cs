@@ -57,6 +57,7 @@ public class PlayerAbility : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q) && !_isOnCooldown)
         {
+            Debug.Log("PRESSED Q");
             if (_isOrb)
             {
                 SFXManager.instance.PlaySfxClip(playerTransform, transform, .5f);

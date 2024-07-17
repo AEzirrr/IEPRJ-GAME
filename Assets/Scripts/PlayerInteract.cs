@@ -29,7 +29,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Interactable"))
+        if(other.gameObject.CompareTag("Interactable") || other.gameObject.CompareTag("Key"))
         {
             _isInRange = true;
             _currentItem = other.gameObject.GetComponent<ItemInteract>();
@@ -38,7 +38,7 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Interactable"))
+        if(other.gameObject.CompareTag("Interactable") || other.gameObject.CompareTag("Key"))
         {
             _currentItem = null;
             _isInRange = false;

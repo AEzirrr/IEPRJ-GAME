@@ -121,7 +121,7 @@ public class PlayerMovement : MonoBehaviour
             slashEffect.transform.rotation = playerModel.rotation;
         }
 
-        // Check if the block shield should be active
+        /////////////////////| BLOCK |\\\\\\\\\\\\\\\\\\\\
         if (Input.GetMouseButton(1) && TransformProperties.Form == ETransform.HUMAN_FORM)
         {
             ActivateBlockShield();
@@ -137,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
             blockShield.transform.rotation = playerModel.rotation;
         }
 
+        /////////////////////| ATTACK |\\\\\\\\\\\\\\\\\\\\
         if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM)
         {
             playerAnimation.SetBool("Attack", true);
@@ -144,6 +145,8 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(ResetAttackAnimation());
         }
 
+
+        /////////////////////| JUMP |\\\\\\\\\\\\\\\\\\\\
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
         {
             readyToJump = false;
