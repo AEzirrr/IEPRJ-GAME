@@ -28,6 +28,7 @@ public class GateController : MonoBehaviour
             }
             SFXManager.instance.PlaySfxClip(GateOpenSFX, transform, .01f);
             StartCoroutine(KeyholeDestroyer());
+            Destroy(collider.gameObject);
             StartCoroutine(GateOpener());
         }
     }
