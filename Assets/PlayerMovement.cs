@@ -53,6 +53,9 @@ public class PlayerMovement : MonoBehaviour
     private GameObject interactingObject;
     private bool canTeleport = false;
 
+    [Header("Sound Effects")]
+    [SerializeField] private AudioSource runningSFX;
+
     Rigidbody rb;
 
     public Animator playerAnimation;
@@ -115,6 +118,19 @@ public class PlayerMovement : MonoBehaviour
                 playerAnimation.SetBool("Jumped", false);
             }
         }
+
+
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && grounded)
+        {
+            runningSFX.enabled = true;
+        }
+        else
+        {
+            runningSFX.enabled = false;
+        }
+
+
+
 
         if (slashEffect != null && playerModel != null)
         {

@@ -32,6 +32,9 @@ public class PlayerMovementBedroom : MonoBehaviour
     public LayerMask whatIsGround;
     bool grounded;
 
+    [Header("Character SFX")] // For Bedroom only
+    [SerializeField] private AudioSource runningSFX;
+
     public Transform orientation;
     public Transform slashPosition;
 
@@ -76,6 +79,7 @@ public class PlayerMovementBedroom : MonoBehaviour
             if (playerAnimation != null)
             {
                 playerAnimation.SetBool("isRunning", true);
+
                 playerAnimation.SetBool("Jumped", false);
             }
         }
@@ -88,6 +92,20 @@ public class PlayerMovementBedroom : MonoBehaviour
             }
         }
 
+
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && grounded)
+        {
+            runningSFX.enabled = true;
+        }
+        else
+        {
+            runningSFX.enabled = false;
+        }
+
+
+
+
+
         /////////////////////| ATTACK |\\\\\\\\\\\\\\\\\\\\
         if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM)
         {
@@ -95,15 +113,6 @@ public class PlayerMovementBedroom : MonoBehaviour
             StartCoroutine(ResetAttackAnimation());
         }
 
-
-        /////////////////////| JUMP |\\\\\\\\\\\\\\\\\\\\
-        if (Input.GetKey(jumpKey) && readyToJump && grounded)
-        {
-            readyToJump = false;
-            Jump();
-            playerAnimation.SetBool("Jumped", true);
-            Invoke(nameof(ResetJump), jumpCooldown);
-        }
 
         if (grounded)
         {
@@ -142,6 +151,7 @@ public class PlayerMovementBedroom : MonoBehaviour
         if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            
         }
         else if (!grounded)
         {
