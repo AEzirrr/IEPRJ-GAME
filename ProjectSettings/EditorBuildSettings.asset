@@ -4,5 +4,15 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Bedroom.unity
+    guid: f308d54c6549e7e44a13c93e74144cbb
+  - enabled: 1
+    path: Assets/Scenes/BedroomCinematic.unity
+    guid: 6675a0e4e2c562f408efbc8090cc6811
+  - enabled: 1
+    path: Assets/Scenes/Environment 1.unity
+    guid: 7543d1327616be140a653709488d9530
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

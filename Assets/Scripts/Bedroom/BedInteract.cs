@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BedInteract : MonoBehaviour
 {
@@ -44,6 +45,7 @@ public class BedInteract : MonoBehaviour
             {
                 Debug.Log("Interacted with Bed");
                 progression.interactedBed = true;
+                SceneManager.LoadScene("BedroomCinematic", LoadSceneMode.Single);
             }
         }
     }
