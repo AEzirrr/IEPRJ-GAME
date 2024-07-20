@@ -48,10 +48,10 @@ public class PlayerMovement : MonoBehaviour
     float verticalInput;
 
     Vector3 moveDirection;
+    bool isPushing;
 
     [Header("LevelAdvance")]
     private GameObject interactingObject;
-    private bool canTeleport = false;
 
     [Header("Sound Effects")]
     [SerializeField] private AudioSource runningSFX;
@@ -97,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
 
         MyInput();
         SpeedControl();
-        CheckForInteraction();
 
         bool isMoving = moveDirection.magnitude > 0.1f;
 
@@ -120,7 +119,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && grounded)
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) 
+            && grounded && TransformProperties.Form == ETransform.HUMAN_FORM && isPushing == false)
         {
             runningSFX.enabled = true;
         }
@@ -317,54 +317,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void CheckForInteraction()
-    {
-        if (canTeleport && Input.GetKeyDown(KeyCode.E))
-        {
-            HandleTeleportation();
-            Debug.Log("Pressed E to teleport.");
-        }
-    }
-
-    private void HandleTeleportation()
-    {
-        if (interactingObject != null)
-        {
-            if (interactingObject.CompareTag("Level1_Exit"))
-            {
-                TeleportPlayer("Level2_Spawn");
-                Debug.Log("Teleported to Level2_Spawn.");
-            }
-            
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Level1_Exit"))
-        {
-            canTeleport = true;
-            interactingObject = other.gameObject;
-
-            Debug.Log("Entered collider.");
-        }
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.CompareTag("Level1_Exit"))
-        {
-            canTeleport = false;
-            interactingObject = null;
-
-            Debug.Log("Exited collider.");
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Pushable")){
             playerAnimation.SetBool("isPushing", true);
+            isPushing = true;
         }
     }
 
@@ -373,6 +330,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Pushable"))
         {
             playerAnimation.SetBool("isPushing", false);
+            isPushing = false;
         }
     }
-}
+}   

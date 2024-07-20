@@ -17,15 +17,14 @@ public class ChestTest : MonoBehaviour
     private void Start()
     {
         this._renderer = GetComponent<Renderer>();
-        EventBroadcaster.Instance.AddObserver(EventNames.PuzzleTest_1.PUZZLETEST_COMPLETE, this.OpenChest);
     }
 
     private void OnDestroy()
     {
-        EventBroadcaster.Instance.RemoveObserver(EventNames.PuzzleTest_1.PUZZLETEST_COMPLETE);
+
     }
 
-    private void OpenChest()
+    public void OpenChest()
     {
         spawnedKey = GameObject.Instantiate(keyObject, keySpawnPos.position, keyObject.transform.rotation, parent);
 

@@ -1,8 +1,6 @@
 using Cinemachine.PostFX;
-using Cinemachine.PostFX.Editor;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;

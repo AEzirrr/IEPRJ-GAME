@@ -7,6 +7,7 @@ public class Checker : MonoBehaviour
     [SerializeField] private string _checkerColor;
     [SerializeField] private Material _newMaterial;
     [SerializeField] private Material _defaultMaterial;
+    [SerializeField] private PuzzleTest1Controller puzzleController;
 
     private Renderer _renderer;
     private void Start()
@@ -15,17 +16,25 @@ public class Checker : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.CompareTag("Pushable"))
+        if (other.gameObject.CompareTag("Pushable"))
         {
-            if(other.gameObject.name == this._checkerColor)
+            if (other.gameObject.name == this._checkerColor)
             {
                 this._renderer.material = this._newMaterial;
-                EventBroadcaster.Instance.PostEvent(EventNames.PuzzleTest_1.ON_CORRECT_COLOR);
+                puzzleController.AddCount();
+
+                Rigidbody rb = other.gameObject.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    Destroy(rb);
+                    Debug.Log("Correct Color - Rigidbody removed");
+                }
+
                 Debug.Log("Correct Color");
             }
             else
             {
-                EventBroadcaster.Instance.PostEvent(EventNames.PuzzleTest_1.ON_INCORRECT_COLOR);
+                puzzleController.ReduceCount();
                 Debug.Log("Incorrect Color");
             }
         }
@@ -37,8 +46,8 @@ public class Checker : MonoBehaviour
         {
             if(other.gameObject.name == this._checkerColor)
             {
-                this._renderer.material = this._defaultMaterial;
-                EventBroadcaster.Instance.PostEvent(EventNames.PuzzleTest_1.CHECKER_EMPTY);
+                this._renderer.material = this._defaultMaterial; 
+                puzzleController.ReduceCount(); 
             }
         }
     }

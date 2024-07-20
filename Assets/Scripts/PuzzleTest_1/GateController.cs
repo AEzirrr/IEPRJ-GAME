@@ -9,6 +9,8 @@ public class GateController : MonoBehaviour
     [SerializeField] private GameObject KeyHole;
     [SerializeField] private float fadeDuration = 1.0f;
 
+    [SerializeField] private TutorialProgression progression;
+
     [SerializeField]
     private AudioClip GateOpenSFX;
 
@@ -62,5 +64,6 @@ public class GateController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         yield return StartCoroutine(FadeOutAndDestroy(Gate));
+        progression.completedpuzzle1 = true;
     }
 }

@@ -71,11 +71,17 @@
     <Compile Include="Assets\Scripts\Bedroom\CeilingFan.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\ViewAnimation\IViewAnimation.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_2\PuzzleTarget.cs" />
+    <Compile Include="Assets\Scripts\TutorialProgression.cs" />
+    <Compile Include="Assets\Scripts\Puzzle 3\PuzzleTest3Controller.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_1\GateController.cs" />
+    <Compile Include="Assets\Scripts\Puzzle 3\Lever.cs" />
     <Compile Include="Assets\ThirdPersonCam.cs" />
+    <Compile Include="Assets\Scripts\Puzzle 3\PortalSpawner.cs" />
     <Compile Include="Assets\Scripts\Bedroom\BedInteract.cs" />
+    <Compile Include="Assets\Scripts\EnemySlime.cs" />
     <Compile Include="Assets\Scripts\Bedroom\ChairInteract.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\EventBroadcaster.cs" />
+    <Compile Include="Assets\Scripts\Puzzle 3\Portal.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\Parameters.cs" />
     <Compile Include="Assets\Scripts\TransformProperties.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\NullScreen.cs" />
@@ -85,8 +91,10 @@
     <Compile Include="Assets\Scripts\ViewHandler\View.cs" />
     <Compile Include="Assets\Scripts\Bedroom\LightInteract.cs" />
     <Compile Include="Assets\Scripts\LoadManager\LoadManager.cs" />
+    <Compile Include="Assets\Scripts\Tutorial\PushTutorial.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_2\PatternChecker.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\BlackOverlay.cs" />
+    <Compile Include="Assets\Scripts\Puzzle 3\Checker2.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\TwoChoiceDialog.cs" />
     <Compile Include="Assets\PlayerMovement.cs" />
@@ -97,8 +105,12 @@
     <Compile Include="Assets\Scripts\LoadManager\SceneNames.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\EventNames.cs" />
     <Compile Include="Assets\Prefabs\LowPolyDungeon\Demo Scenes\MouseCamLook.cs" />
+    <Compile Include="Assets\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\Scripts\Bedroom\Transition.cs" />
     <Compile Include="Assets\Prefabs\LowPolyDungeon\Demo Scenes\ScreenshotMaker.cs" />
+    <Compile Include="Assets\Scripts\EnemyAiTutorial.cs" />
+    <Compile Include="Assets\Scripts\Puzzle 3\CubeGate.cs" />
+    <Compile Include="Assets\Pushable Blocks\PushableCube.cs" />
     <Compile Include="Assets\Scripts\Bedroom\PlayerMovementBedroom.cs" />
     <Compile Include="Assets\Scripts\SFXManager.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_2\PuzzleTest2Controller.cs" />
@@ -1134,6 +1146,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Formats.Alembic.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Formats.Alembic.Editor.dll</HintPath>
       <Private>False</Private>
@@ -1238,6 +1254,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation.Updater">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Updater.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
       <Private>False</Private>
@@ -1274,12 +1294,16 @@
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Mathematics">
-      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
+    <Reference Include="Unity.AI.Navigation.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Cinemachine">
       <HintPath>Library\ScriptAssemblies\Cinemachine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Mathematics">
+      <HintPath>Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
@@ -1306,6 +1330,10 @@
       <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Unity.AI.Navigation.Editor.ConversionSystem">
+      <HintPath>Library\ScriptAssemblies\Unity.AI.Navigation.Editor.ConversionSystem.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Unity.Formats.Alembic.Runtime">
       <HintPath>Library\ScriptAssemblies\Unity.Formats.Alembic.Runtime.dll</HintPath>
       <Private>False</Private>
@@ -1314,12 +1342,12 @@
       <HintPath>Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Unity.Burst.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Unity.Burst.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Unity.Formats.Fbx.Editor">

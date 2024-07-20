@@ -13,6 +13,7 @@ TagManager:
   - Level2_Spawn
   - ItemTargetPos
   - Key
+  - Slash
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - UI
   - WhatIsGround
   - Camera
-  - 
+  - Enemy
   - 
   - 
   - 
