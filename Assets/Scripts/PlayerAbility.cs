@@ -8,6 +8,14 @@ public class PlayerAbility : MonoBehaviour
     private GameObject _playerModel;
 
     [SerializeField]
+    private GameObject _playerClothes;
+    [SerializeField]
+    private Material _playerEmissive; // New field for emissive material
+
+    [SerializeField]
+    private Material _defaultClothesMaterial; // Default material to revert to if needed
+
+    [SerializeField]
     private GameObject _orbModel;
 
     [SerializeField]
@@ -26,19 +34,17 @@ public class PlayerAbility : MonoBehaviour
     private Transform _spawnPos;
 
     [SerializeField]
-    private float transformCooldown = 10f; 
+    private float transformCooldown = 10f;
 
     private bool _isOrb;
     private bool _isOnCooldown;
     private float _cooldownTimer;
-    private float _orbTimer; 
-
-    public ManaSystem manaSystem;
+    private float _orbTimer;
 
     private Material _orbMaterial;
     private Color _originalEmissionColor;
     private float _blinkThreshold = 2f; // Time remaining to start blinking
-    private float _blinkFrequency = 5f; 
+    private float _blinkFrequency = 5f;
     private float _originalLightIntensity;
 
     private void Awake()
@@ -72,8 +78,6 @@ public class PlayerAbility : MonoBehaviour
         {
             Debug.LogError("Orb point light not assigned.");
         }
-
-        manaSystem = GetComponent<ManaSystem>();
     }
 
     void Start()
@@ -81,6 +85,18 @@ public class PlayerAbility : MonoBehaviour
         _orbModel.SetActive(false);
         _isOrb = false;
         _isOnCooldown = false;
+
+        Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
+
+        if (_playerClothes != null)
+        {
+            
+            if (clothesRenderer != null)
+            {
+                _defaultClothesMaterial = clothesRenderer.material;
+            }
+        }
+
     }
 
     void Update()
@@ -92,7 +108,13 @@ public class PlayerAbility : MonoBehaviour
             {
                 _isOnCooldown = false;
                 _cooldownTimer = 0f;
+               
             }
+        }
+        else
+        {
+            Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
+            clothesRenderer.material = _playerEmissive;
         }
 
         if (_isOrb)
@@ -121,6 +143,15 @@ public class PlayerAbility : MonoBehaviour
             }
 
             _cooldownTimer = transformCooldown;
+            // Revert clothes material to default when transforming
+            if (_playerClothes != null && _defaultClothesMaterial != null)
+            {
+                Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
+                if (clothesRenderer != null)
+                {
+                    clothesRenderer.material = _defaultClothesMaterial;
+                }
+            }
         }
 
         if (_isOrb)
@@ -128,7 +159,7 @@ public class PlayerAbility : MonoBehaviour
             MouseAimInput();
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (manaSystem.CanShoot(1f))
+                if (HealthAndManaManager.Instance.CanShoot(1f))
                 {
                     Shoot();
                 }
@@ -159,7 +190,7 @@ public class PlayerAbility : MonoBehaviour
     private void Shoot()
     {
         Instantiate(_projectile, _spawnPos.position, _spawnPos.rotation);
-        manaSystem.ShootProjectile(1f);
+        HealthAndManaManager.Instance.ShootProjectile(1f);
     }
 
     private void MouseAimInput()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using UnityEngine.UI;
 
 public class EnemySlime : MonoBehaviour
 {
@@ -10,7 +11,15 @@ public class EnemySlime : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
+    [SerializeField]
+    private float attackDamage;
+
+    [SerializeField]
+    private Slider healthSlider;
+
+    [SerializeField]
+    private float maxHealth;
+    private float currentHealth;
 
     // Patroling
     public Vector3 walkPoint;
@@ -32,6 +41,8 @@ public class EnemySlime : MonoBehaviour
 
     private void Start()
     {
+        currentHealth = maxHealth;
+        UpdateHealthUI();
         GameObject playerObject = GameObject.FindWithTag("Player");
         if (playerObject != null)
         {
@@ -139,8 +150,9 @@ public class EnemySlime : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Projectile"))
         {
-            health -= 25;
-            if (health <= 0)
+            currentHealth -= 25;
+            UpdateHealthUI();
+            if (currentHealth <= 0)
             {
                 animator.SetBool("isDead", true);
                 Invoke(nameof(DestroyEnemy), 1f);
@@ -151,6 +163,19 @@ public class EnemySlime : MonoBehaviour
             Vector3 knockbackDirection = (transform.position - collision.transform.position).normalized;
             StartCoroutine(ApplyKnockback(knockbackDirection));
         }
+
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            HealthAndManaManager.Instance.TakeDamage(attackDamage);
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            HealthAndManaManager.Instance.TakeDamage(attackDamage);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -158,9 +183,10 @@ public class EnemySlime : MonoBehaviour
         if (other.gameObject.CompareTag("Slash"))
         {
             Debug.Log("Slash Hit");
-            health -= 50;
-            health -= 25;
-            if (health <= 0)
+            currentHealth -= 50;
+            currentHealth -= 25;
+            UpdateHealthUI();
+            if (currentHealth <= 0)
             {
                 animator.SetBool("isDead", true);
                 Invoke(nameof(DestroyEnemy), 1f);
@@ -197,5 +223,13 @@ public class EnemySlime : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+
+    private void UpdateHealthUI()
+    {
+        if (healthSlider != null)
+        {
+            healthSlider.value = currentHealth / maxHealth;
+        }
     }
 }

@@ -42,7 +42,14 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Attack")]
     public GameObject slashEffect;
+
+    [Header("Shield Parameters")]
     public GameObject blockShield;
+    [SerializeField]
+    private float shieldDuration = 3f;
+    [SerializeField]
+    private float shieldCooldown = 5f;
+    private bool shieldUsable = true;
 
     float horizontalInput;
     float verticalInput;
@@ -119,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) 
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
             && grounded && TransformProperties.Form == ETransform.HUMAN_FORM && isPushing == false)
         {
             runningSFX.enabled = true;
@@ -138,13 +145,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         /////////////////////| BLOCK |\\\\\\\\\\\\\\\\\\\\
-        if (Input.GetMouseButton(1) && TransformProperties.Form == ETransform.HUMAN_FORM)
+        if (Input.GetMouseButton(1) && TransformProperties.Form == ETransform.HUMAN_FORM && shieldUsable)
         {
-            ActivateBlockShield();
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            DeactivateBlockShield();
+            StartCoroutine(ActivateBlockShield());
         }
 
         if (blockShield != null && blockShield.activeSelf)
@@ -197,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
         if (inputDir != Vector3.zero)
         {
             playerModel.forward = Vector3.Slerp(playerModel.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
-   
+
         }
     }
 
@@ -278,29 +281,17 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.SetBool("Attack", false);
     }
 
-    private void ActivateBlockShield()
+    private IEnumerator ActivateBlockShield()
     {
-        if (blockShield != null && orientation != null && blockPosition != null)
-        {
-            blockShield.transform.position = blockPosition.position;
-            blockShield.transform.rotation = playerModel.rotation;
+        blockShield.SetActive(true);
+        shieldUsable = false;
+        readyToAttack = false;
+        yield return new WaitForSeconds(shieldDuration);
 
-            blockShield.SetActive(true);
-            Debug.Log("Block Shield activated!");
-        }
-        else
-        {
-            Debug.LogError("Block Shield, orientation transform, or block position not assigned!");
-        }
-    }
-
-    private void DeactivateBlockShield()
-    {
-        if (blockShield != null)
-        {
-            blockShield.SetActive(false);
-            Debug.Log("Block Shield deactivated!");
-        }
+        blockShield.SetActive(false);
+        readyToAttack = true;
+        yield return new WaitForSeconds(shieldCooldown);
+        shieldUsable = true;
     }
 
     public void TeleportPlayer(string spawnPointName)
@@ -319,7 +310,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Pushable")){
+        if (collision.gameObject.CompareTag("Pushable"))
+        {
             playerAnimation.SetBool("isPushing", true);
             isPushing = true;
         }
@@ -333,4 +325,4 @@ public class PlayerMovement : MonoBehaviour
             isPushing = false;
         }
     }
-}   
+}
