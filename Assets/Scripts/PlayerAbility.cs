@@ -26,19 +26,17 @@ public class PlayerAbility : MonoBehaviour
     private Transform _spawnPos;
 
     [SerializeField]
-    private float transformCooldown = 10f; 
+    private float transformCooldown = 10f;
 
     private bool _isOrb;
     private bool _isOnCooldown;
     private float _cooldownTimer;
-    private float _orbTimer; 
-
-    public ManaSystem manaSystem;
+    private float _orbTimer;
 
     private Material _orbMaterial;
     private Color _originalEmissionColor;
     private float _blinkThreshold = 2f; // Time remaining to start blinking
-    private float _blinkFrequency = 5f; 
+    private float _blinkFrequency = 5f;
     private float _originalLightIntensity;
 
     private void Awake()
@@ -72,8 +70,6 @@ public class PlayerAbility : MonoBehaviour
         {
             Debug.LogError("Orb point light not assigned.");
         }
-
-        manaSystem = GetComponent<ManaSystem>();
     }
 
     void Start()
@@ -128,7 +124,7 @@ public class PlayerAbility : MonoBehaviour
             MouseAimInput();
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                if (manaSystem.CanShoot(1f))
+                if (HealthAndManaManager.Instance.CanShoot(1f))
                 {
                     Shoot();
                 }
@@ -159,7 +155,7 @@ public class PlayerAbility : MonoBehaviour
     private void Shoot()
     {
         Instantiate(_projectile, _spawnPos.position, _spawnPos.rotation);
-        manaSystem.ShootProjectile(1f);
+        HealthAndManaManager.Instance.ShootProjectile(1f);
     }
 
     private void MouseAimInput()

@@ -42,7 +42,14 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Attack")]
     public GameObject slashEffect;
+
+    [Header("Shield Parameters")]
     public GameObject blockShield;
+    [SerializeField]
+    private float shieldDuration = 3f;
+    [SerializeField]
+    private float shieldCooldown = 5f;
+    private bool shieldUsable = true;
 
     float horizontalInput;
     float verticalInput;
@@ -138,13 +145,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         /////////////////////| BLOCK |\\\\\\\\\\\\\\\\\\\\
-        if (Input.GetMouseButton(1) && TransformProperties.Form == ETransform.HUMAN_FORM)
+        if (Input.GetMouseButton(1) && TransformProperties.Form == ETransform.HUMAN_FORM && shieldUsable)
         {
-            ActivateBlockShield();
-        }
-        else if (Input.GetMouseButtonUp(1))
-        {
-            DeactivateBlockShield();
+            StartCoroutine(ActivateBlockShield());
         }
 
         if (blockShield != null && blockShield.activeSelf)
@@ -278,29 +281,17 @@ public class PlayerMovement : MonoBehaviour
         playerAnimation.SetBool("Attack", false);
     }
 
-    private void ActivateBlockShield()
+    private IEnumerator ActivateBlockShield()
     {
-        if (blockShield != null && orientation != null && blockPosition != null)
-        {
-            blockShield.transform.position = blockPosition.position;
-            blockShield.transform.rotation = playerModel.rotation;
+        blockShield.SetActive(true);
+        shieldUsable = false;
+        readyToAttack = false;
+        yield return new WaitForSeconds(shieldDuration);
 
-            blockShield.SetActive(true);
-            Debug.Log("Block Shield activated!");
-        }
-        else
-        {
-            Debug.LogError("Block Shield, orientation transform, or block position not assigned!");
-        }
-    }
-
-    private void DeactivateBlockShield()
-    {
-        if (blockShield != null)
-        {
-            blockShield.SetActive(false);
-            Debug.Log("Block Shield deactivated!");
-        }
+        blockShield.SetActive(false);
+        readyToAttack = true;
+        yield return new WaitForSeconds(shieldCooldown);
+        shieldUsable = true;
     }
 
     public void TeleportPlayer(string spawnPointName)
