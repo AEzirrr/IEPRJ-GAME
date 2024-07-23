@@ -23,16 +23,16 @@ public class LoadingScreenManager : MonoBehaviour
         }
     }
 
-    public void SwitchToScene(int id)
+    public void SwitchToScene(string sceneName)
     {
         m_LoadingScreenObject.SetActive(true);
         ProgressBar.value = 0;
-        StartCoroutine(SwitchToSceneAsync(id));
+        StartCoroutine(SwitchToSceneAsync(sceneName));
     }
 
-    IEnumerator SwitchToSceneAsync(int id)
+    IEnumerator SwitchToSceneAsync(string sceneName)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(id);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
         {
             ProgressBar.value = asyncLoad.progress;
@@ -41,6 +41,11 @@ public class LoadingScreenManager : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
         m_LoadingScreenObject.SetActive(false);
     }
+
+
+
+
+
 
     // Start is called before the first frame update
     void Start()

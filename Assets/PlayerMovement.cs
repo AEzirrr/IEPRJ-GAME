@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Sound Effects")]
     [SerializeField] private AudioSource runningSFX;
+    [SerializeField] private AudioClip attackSFX;
 
     Rigidbody rb;
 
@@ -160,6 +161,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM)
         {
             playerAnimation.SetBool("Attack", true);
+            SFXManager.instance.PlaySfxClip(attackSFX, transform, .05f);
             ActivateSlashEffect();
             StartCoroutine(ResetAttackAnimation());
         }

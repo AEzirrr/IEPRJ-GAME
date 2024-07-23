@@ -36,6 +36,9 @@ public class PlayerAbility : MonoBehaviour
     [SerializeField]
     private float transformCooldown = 10f;
 
+    [SerializeField]
+    private AudioClip shootSFX;
+
     private bool _isOrb;
     private bool _isOnCooldown;
     private float _cooldownTimer;
@@ -46,6 +49,8 @@ public class PlayerAbility : MonoBehaviour
     private float _blinkThreshold = 2f; // Time remaining to start blinking
     private float _blinkFrequency = 5f;
     private float _originalLightIntensity;
+
+
 
     private void Awake()
     {
@@ -179,17 +184,21 @@ public class PlayerAbility : MonoBehaviour
 
     private void TransformBackToPlayer()
     {
+        Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
+
         SFXManager.instance.PlaySfxClip(playerTransform, transform, .5f);
         _orbModel.SetActive(false);
         _playerModel.SetActive(true);
         _isOrb = false;
         TransformProperties.Form = ETransform.HUMAN_FORM;
         _isOnCooldown = true;
+        clothesRenderer.material = _defaultClothesMaterial;
     }
 
     private void Shoot()
     {
         Instantiate(_projectile, _spawnPos.position, _spawnPos.rotation);
+        SFXManager.instance.PlaySfxClip(shootSFX, transform, .005f);
         HealthAndManaManager.Instance.ShootProjectile(1f);
     }
 

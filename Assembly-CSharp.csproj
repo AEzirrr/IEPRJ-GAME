@@ -62,12 +62,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerAbility.cs" />
+    <Compile Include="Assets\RotateSpinner.cs" />
     <Compile Include="Assets\Prefabs\Key\KeySpin.cs" />
     <Compile Include="Assets\Scripts\Views\BasicHudScreen.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_1\ChestTest.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\ViewNames.cs" />
     <Compile Include="Assets\Scripts\ETransform.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\DialogInterface.cs" />
+    <Compile Include="Assets\Animations\Bedroom\BedroomFadeIn.cs" />
     <Compile Include="Assets\Scripts\Bedroom\CeilingFan.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\ViewAnimation\IViewAnimation.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_2\PuzzleTarget.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Assets\Scripts\EnemyAiTutorial.cs" />
     <Compile Include="Assets\Scripts\Puzzle 3\CubeGate.cs" />
     <Compile Include="Assets\Pushable Blocks\PushableCube.cs" />
+    <Compile Include="Assets\MainMenu.cs" />
     <Compile Include="Assets\Scripts\Bedroom\PlayerMovementBedroom.cs" />
     <Compile Include="Assets\Scripts\SFXManager.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_2\PuzzleTest2Controller.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Assets\Scripts\ViewHandler\ViewAnimation.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\ObserverList.cs" />
     <Compile Include="Assets\Scripts\Abilities\Projectile.cs" />
+    <Compile Include="Assets\LoadingScreenManager.cs" />
     <Compile Include="Assets\Prefabs\LowPolyWater_Pack\Scripts\LowPolyWater.cs" />
     <Compile Include="Assets\Scripts\Bedroom\Bedroom Progression.cs" />
   </ItemGroup>
