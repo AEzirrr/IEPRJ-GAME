@@ -10,7 +10,7 @@ public class Portal : MonoBehaviour
         if(other.CompareTag("Player"))
         {
             Debug.Log("LEVEL 1 DONE");
-            SceneManager.LoadScene("Main Menu", LoadSceneMode.Single);
+            SceneManager.LoadScene("Outro", LoadSceneMode.Single);
         }
     }
 }

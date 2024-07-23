@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HealthAndManaManager : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class HealthAndManaManager : MonoBehaviour
     private Slider _healthSlider;
 
     private float _maxHealth = 100f;
-    private float _startinghealth = 100f;
+    private float _startingHealth = 100f;
     [SerializeField]
     private float _healthRegenRate = 15f;
     private float _currentHealth;
@@ -28,13 +29,17 @@ public class HealthAndManaManager : MonoBehaviour
     private bool _isTakingDamage = false;
     private Coroutine _healthRegenCoroutine;
 
+    [SerializeField]
+    private GameObject player;
+
+    private Transform savedSpawnPoint;
+
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
         }
-
         else
         {
             Destroy(gameObject);
@@ -44,7 +49,7 @@ public class HealthAndManaManager : MonoBehaviour
     private void Start()
     {
         this._currentMana = this._startingMana;
-        this._currentHealth = this._startinghealth;
+        this._currentHealth = this._startingHealth;
         this.UpdateManaUI();
         this.UpdateHealthUI();
     }
@@ -72,12 +77,19 @@ public class HealthAndManaManager : MonoBehaviour
         this._currentHealth = Mathf.Clamp(this._currentHealth, 0f, _maxHealth);
         this.UpdateHealthUI();
 
-        this._isTakingDamage = true;
-        if (this._healthRegenCoroutine != null)
+        if (this._currentHealth <= 0)
         {
-            StopCoroutine(this._healthRegenCoroutine);
+            PlayerDeath();
         }
-        this._healthRegenCoroutine = StartCoroutine(WaitAndStartHealthRegen());
+        else
+        {
+            this._isTakingDamage = true;
+            if (this._healthRegenCoroutine != null)
+            {
+                StopCoroutine(this._healthRegenCoroutine);
+            }
+            this._healthRegenCoroutine = StartCoroutine(WaitAndStartHealthRegen());
+        }
     }
 
     private IEnumerator WaitAndStartHealthRegen()
@@ -123,5 +135,17 @@ public class HealthAndManaManager : MonoBehaviour
         this._currentMana -= manaCost;
         this._currentMana = Mathf.Clamp(this._currentMana, 0f, this._maxMana);
         this.UpdateManaUI();
+    }
+
+    public void SaveRespawnPoint(Transform spawnPoint)
+    {
+        savedSpawnPoint = spawnPoint;
+    }
+
+    public void PlayerDeath()
+    {
+        player.transform.position = savedSpawnPoint.position;
+        this._currentHealth = this._maxHealth;
+        this.UpdateHealthUI();
     }
 }
