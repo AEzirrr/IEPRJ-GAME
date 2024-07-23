@@ -38,6 +38,7 @@ public class MainMenu : MonoBehaviour
 
     public void QuitGame()
     {
+        Debug.Log("QuitGame function is called.");
         Application.Quit();
     }
 }
