@@ -61,7 +61,6 @@
     <Analyzer Include="S:\Unity Editor\2023.2.16f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\PlayerAbility.cs" />
     <Compile Include="Assets\RotateSpinner.cs" />
     <Compile Include="Assets\Prefabs\Key\KeySpin.cs" />
     <Compile Include="Assets\Scripts\Views\BasicHudScreen.cs" />
@@ -90,6 +89,7 @@
     <Compile Include="Assets\Scripts\Broadcasting\Parameters.cs" />
     <Compile Include="Assets\Scripts\TransformProperties.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\NullScreen.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_1\Checker.cs" />
     <Compile Include="Assets\Scripts\UI\ManaSystem.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\NotificationDialog.cs" />
@@ -102,10 +102,8 @@
     <Compile Include="Assets\Scripts\Puzzle 3\Checker2.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\TwoChoiceDialog.cs" />
-    <Compile Include="Assets\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Items\ItemInteract.cs" />
     <Compile Include="Assets\Scripts\PuzzleTest_2\DoorController.cs" />
-    <Compile Include="Assets\Scripts\PlayerInteract.cs" />
     <Compile Include="Assets\Scripts\UI\BillboardCanvas.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\TimedDialog.cs" />
     <Compile Include="Assets\Scripts\LoadManager\SceneNames.cs" />
@@ -114,6 +112,7 @@
     <Compile Include="Assets\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\Scripts\Bedroom\Transition.cs" />
     <Compile Include="Assets\Prefabs\LowPolyDungeon\Demo Scenes\ScreenshotMaker.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerInteract.cs" />
     <Compile Include="Assets\Scripts\EnemyAiTutorial.cs" />
     <Compile Include="Assets\Scripts\Puzzle 3\CubeGate.cs" />
     <Compile Include="Assets\Pushable Blocks\PushableCube.cs" />
@@ -130,6 +129,7 @@
     <Compile Include="Assets\Scripts\ViewHandler\ViewAnimation.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\ObserverList.cs" />
     <Compile Include="Assets\Scripts\Abilities\Projectile.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerAbility.cs" />
     <Compile Include="Assets\LoadingScreenManager.cs" />
     <Compile Include="Assets\Prefabs\LowPolyWater_Pack\Scripts\LowPolyWater.cs" />
     <Compile Include="Assets\Scripts\Bedroom\Bedroom Progression.cs" />
