@@ -19,6 +19,7 @@ public class TutorialProgression : MonoBehaviour
     [SerializeField] private GameObject pushTutorialPanel;
     [SerializeField] private GameObject attackTutorialPanel;
     [SerializeField] private GameObject blockTutorialPanel;
+    [SerializeField] private GameObject EnemiesTutorialPanel;
 
 
     [SerializeField] AudioClip taskFinishSFX;
@@ -87,6 +88,14 @@ public class TutorialProgression : MonoBehaviour
         SFXManager.instance.PlaySfxClip(taskFinishSFX, transform, .02f);
 
         blockTutorialPanel.SetActive(false);
+        yield return new WaitForSeconds(1f);
+
+        EnemiesTutorialPanel.SetActive(true);
+
+        yield return new WaitForSeconds(5f);
+        SFXManager.instance.PlaySfxClip(taskFinishSFX, transform, .02f);
+
+        EnemiesTutorialPanel.SetActive(false);
         yield return new WaitForSeconds(1f);
 
 

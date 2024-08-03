@@ -6,6 +6,7 @@ public class PatternChecker : MonoBehaviour
 {
     public List<int> noteSequence;
     public int requiredPatternLength = 8; // Adjust as needed for the correct pattern length
+    [SerializeField] private AudioClip failedSFX;
 
     void Start()
     {
@@ -32,6 +33,7 @@ public class PatternChecker : MonoBehaviour
         else
         {
             EventBroadcaster.Instance.PostEvent(EventNames.PuzzleTest_2.ON_RESET_TARGET);
+            SFXManager.instance.PlaySfxClip(failedSFX, transform, 0.03f);
             Debug.Log("INCORRECT PATTERN");
         }
         noteSequence.Clear();
