@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class PlayerAbility : MonoBehaviour
 {
     [SerializeField]
@@ -44,6 +44,12 @@ public class PlayerAbility : MonoBehaviour
 
     [SerializeField]
     private Transform raycastOrigin; // Layer mask for non-transformable areas
+
+    [SerializeField]
+    private Slider _orbSlider;
+
+    [SerializeField]
+    private Image _orbFill;
 
     private bool _isOrb;
     private bool _isOnCooldown;
@@ -180,6 +186,32 @@ public class PlayerAbility : MonoBehaviour
                     Shoot();
                 }
             }
+        }
+
+        this.OrbTimerUI();
+    }
+
+    private void OrbTimerUI()
+    {
+        if(this._isOnCooldown)
+        {
+            this._orbFill.color = Color.red;
+        }
+        else
+        {
+            this._orbFill.color = Color.white;
+        }
+
+        this._cooldownTimer -= Time.deltaTime;
+
+        float value = Mathf.Clamp01(this._cooldownTimer / transformCooldown);
+
+
+        this._orbSlider.value = value;
+
+        if (this._cooldownTimer <= 0)
+        {
+            this._cooldownTimer = 0;
         }
     }
 

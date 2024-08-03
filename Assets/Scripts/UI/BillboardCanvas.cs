@@ -5,13 +5,14 @@ using UnityEngine;
 public class BillboardCanvas : MonoBehaviour
 {
     Transform cameraTransform;
+
     void Start()
     {
         cameraTransform = Camera.main.transform;
     }
 
-    void LateUpdate()
+    void Update()
     {
-        transform.LookAt(transform.position + cameraTransform.rotation * -Vector3.forward, cameraTransform.rotation * Vector3.up);
+        transform.LookAt(transform.position + cameraTransform.rotation * Vector3.forward, cameraTransform.rotation * Vector3.up);
     }
 }

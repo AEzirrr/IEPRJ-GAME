@@ -32,11 +32,6 @@ public class Checker : MonoBehaviour
 
                 Debug.Log("Correct Color");
             }
-            else
-            {
-                puzzleController.ReduceCount();
-                Debug.Log("Incorrect Color");
-            }
         }
     }
 
