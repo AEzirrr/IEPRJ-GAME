@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class PlayerAbility : MonoBehaviour
 {
     [SerializeField]
@@ -9,11 +10,15 @@ public class PlayerAbility : MonoBehaviour
 
     [SerializeField]
     private GameObject _playerClothes;
+
     [SerializeField]
     private Material _playerEmissive; // New field for emissive material
 
     [SerializeField]
     private Material _defaultClothesMaterial; // Default material to revert to if needed
+
+    [SerializeField]
+    private GameObject _clothesParticle; // Default material to revert to if needed
 
     [SerializeField]
     private GameObject _orbModel;
@@ -106,22 +111,19 @@ public class PlayerAbility : MonoBehaviour
 
         if (_playerClothes != null)
         {
-
             if (clothesRenderer != null)
             {
                 _defaultClothesMaterial = clothesRenderer.material;
+                // Set the player clothes material to emissive at start
+                SetPlayerClothesMaterial(_playerEmissive);
             }
         }
-
     }
 
     void Update()
     {
         _onNonTransformable = Physics.Raycast(raycastOrigin.position, Vector3.down, 2, nonTransformableLayer);
         Debug.DrawRay(raycastOrigin.position, Vector3.down * (2 * 0.5f + 0.2f), _onNonTransformable ? Color.blue : Color.red);
-
-
-
 
         if (_isOnCooldown)
         {
@@ -130,13 +132,10 @@ public class PlayerAbility : MonoBehaviour
             {
                 _isOnCooldown = false;
                 _cooldownTimer = 0f;
-
+                // Change to emissive material when cooldown ends
+                SetPlayerClothesMaterial(_playerEmissive);
+                _clothesParticle.SetActive(true);
             }
-        }
-        else
-        {
-            Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
-            clothesRenderer.material = _playerEmissive;
         }
 
         if (_isOrb)
@@ -164,15 +163,10 @@ public class PlayerAbility : MonoBehaviour
                 TransformToOrb();
             }
 
-            _cooldownTimer = transformCooldown;
             // Revert clothes material to default when transforming
             if (_playerClothes != null && _defaultClothesMaterial != null)
             {
-                Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
-                if (clothesRenderer != null)
-                {
-                    clothesRenderer.material = _defaultClothesMaterial;
-                }
+                SetPlayerClothesMaterial(_defaultClothesMaterial);
             }
         }
 
@@ -188,30 +182,26 @@ public class PlayerAbility : MonoBehaviour
             }
         }
 
-        this.OrbTimerUI();
+        OrbTimerUI();
     }
 
     private void OrbTimerUI()
     {
-        if(this._isOnCooldown)
+        if (_isOnCooldown)
         {
-            this._orbFill.color = Color.red;
+            _orbFill.color = Color.red;
+            float value = Mathf.Clamp01(_cooldownTimer / transformCooldown);
+            _orbSlider.value = value;
+        }
+        else if (_isOrb)
+        {
+            _orbFill.color = Color.white;
+            float value = Mathf.Clamp01(_orbTimer / transformCooldown);
+            _orbSlider.value = value;
         }
         else
         {
-            this._orbFill.color = Color.white;
-        }
-
-        this._cooldownTimer -= Time.deltaTime;
-
-        float value = Mathf.Clamp01(this._cooldownTimer / transformCooldown);
-
-
-        this._orbSlider.value = value;
-
-        if (this._cooldownTimer <= 0)
-        {
-            this._cooldownTimer = 0;
+            _orbSlider.value = 0;
         }
     }
 
@@ -223,6 +213,7 @@ public class PlayerAbility : MonoBehaviour
         _isOrb = true;
         _orbTimer = transformCooldown;
         TransformProperties.Form = ETransform.ORB_FORM;
+        _clothesParticle.SetActive(false);
     }
 
     private void TransformBackToPlayer()
@@ -235,7 +226,6 @@ public class PlayerAbility : MonoBehaviour
 
         Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
 
-        
         SFXManager.instance.PlaySfxClip(playerTransform, transform, .5f);
         _orbModel.SetActive(false);
         _orbPointLight.intensity = _originalLightIntensity;
@@ -243,6 +233,7 @@ public class PlayerAbility : MonoBehaviour
         _isOrb = false;
         TransformProperties.Form = ETransform.HUMAN_FORM;
         _isOnCooldown = true;
+        _cooldownTimer = transformCooldown; // Start cooldown timer when transforming back to human form
         clothesRenderer.material = _defaultClothesMaterial;
         _orbMaterial.SetColor("_EmissionColor", _originalEmissionColor);
     }
@@ -277,5 +268,12 @@ public class PlayerAbility : MonoBehaviour
         }
     }
 
-
+    private void SetPlayerClothesMaterial(Material material)
+    {
+        Renderer clothesRenderer = _playerClothes.GetComponent<Renderer>();
+        if (clothesRenderer != null)
+        {
+            clothesRenderer.material = material;
+        }
+    }
 }
