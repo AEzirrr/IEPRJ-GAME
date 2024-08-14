@@ -7,6 +7,7 @@ public class PlayerMovementBedroom : MonoBehaviour
 {
     [Header("Player Model")]
     [SerializeField] private Transform playerModel;
+    [SerializeField] private BoxCollider playerModelCollider;
 
     [Header("Movement")]
     public float moveSpeed;
@@ -43,12 +44,21 @@ public class PlayerMovementBedroom : MonoBehaviour
 
     float horizontalInput;
     float verticalInput;
+    bool canMove;
 
     Vector3 moveDirection;
 
     Rigidbody rb;
 
     public Animator playerAnimation;
+
+    private void Awake()
+    {
+        canMove = false;
+        playerAnimation.SetBool("StandUp", true);
+        playerModelCollider.center = new Vector3(0, 3.5f, 2f);
+        StartCoroutine(ResetStandUpAnimation());
+    }
 
     // Start is called before the first frame update
     private void Start()
@@ -93,7 +103,7 @@ public class PlayerMovementBedroom : MonoBehaviour
         }
 
 
-        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && grounded)
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D)) && grounded && canMove)
         {
             runningSFX.enabled = true;
         }
@@ -103,11 +113,8 @@ public class PlayerMovementBedroom : MonoBehaviour
         }
 
 
-
-
-
         /////////////////////| ATTACK |\\\\\\\\\\\\\\\\\\\\
-        if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM)
+        if (Input.GetMouseButtonDown(0) && readyToAttack && TransformProperties.Form == ETransform.HUMAN_FORM && canMove)
         {
             playerAnimation.SetBool("Attack", true);
             StartCoroutine(ResetAttackAnimation());
@@ -137,7 +144,7 @@ public class PlayerMovementBedroom : MonoBehaviour
 
         Vector3 inputDir = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (inputDir != Vector3.zero)
+        if (inputDir != Vector3.zero && canMove)
         {
             playerModel.forward = Vector3.Slerp(playerModel.forward, inputDir.normalized, Time.deltaTime * rotationSpeed);
 
@@ -146,16 +153,19 @@ public class PlayerMovementBedroom : MonoBehaviour
 
     private void MovePlayer()
     {
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        if (canMove)
+        {
+            moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            
-        }
-        else if (!grounded)
-        {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            if (grounded)
+            {
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+
+            }
+            else if (!grounded)
+            {
+                rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            }
         }
     }
 
@@ -191,6 +201,27 @@ public class PlayerMovementBedroom : MonoBehaviour
     {
         yield return new WaitForSeconds(0.3f);
         playerAnimation.SetBool("Attack", false);
+    }
+
+    private IEnumerator ResetStandUpAnimation()
+    {
+        yield return new WaitForSeconds(2.17f);
+        playerAnimation.SetBool("StandUp", false);
+
+        Vector3 startPos = playerModelCollider.center;
+        Vector3 endPos = new Vector3(0, 3.5f, 0f);
+        float duration = 1f; 
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            playerModelCollider.center = Vector3.Lerp(startPos, endPos, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        playerModelCollider.center = endPos;
+        canMove = true;
     }
 
 }
