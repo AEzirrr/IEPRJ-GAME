@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\Puzzle 3\PortalSpawner.cs" />
     <Compile Include="Assets\Scripts\Bedroom\BedInteract.cs" />
     <Compile Include="Assets\Scripts\EnemySlime.cs" />
+    <Compile Include="Assets\Scripts\OpacityArea.cs" />
     <Compile Include="Assets\Scripts\Bedroom\ChairInteract.cs" />
     <Compile Include="Assets\Scripts\Broadcasting\EventBroadcaster.cs" />
     <Compile Include="Assets\Scripts\Puzzle 3\Portal.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Assets\Scripts\PuzzleTest_1\Checker.cs" />
     <Compile Include="Assets\Scripts\UI\ManaSystem.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\Popups\NotificationDialog.cs" />
+    <Compile Include="Assets\Scripts\PuzzleTest_1\Puzzle1Key.cs" />
     <Compile Include="Assets\Scripts\ViewHandler\View.cs" />
     <Compile Include="Assets\Scripts\Bedroom\LightInteract.cs" />
     <Compile Include="Assets\Scripts\LoadManager\LoadManager.cs" />

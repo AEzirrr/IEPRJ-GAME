@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GateController : MonoBehaviour
 {
+    // Singleton instance
+    public static GateController Instance { get; private set; }
+
     [SerializeField] private Material _newMaterial;
     [SerializeField] private GameObject Gate;
     [SerializeField] private GameObject KeyHole;
@@ -16,7 +19,16 @@ public class GateController : MonoBehaviour
 
     private void Awake()
     {
-        
+        // Singleton pattern implementation
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider collider)
@@ -33,6 +45,13 @@ public class GateController : MonoBehaviour
             Destroy(collider.gameObject);
             StartCoroutine(GateOpener());
         }
+    }
+
+    public void OnKeyInteracted()
+    {
+        SFXManager.instance.PlaySfxClip(GateOpenSFX, transform, .01f);
+        StartCoroutine(KeyholeDestroyer());
+        StartCoroutine(GateOpener());
     }
 
     private IEnumerator FadeOutAndDestroy(GameObject obj)

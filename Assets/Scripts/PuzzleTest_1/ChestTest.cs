@@ -7,8 +7,11 @@ public class ChestTest : MonoBehaviour
     [SerializeField] private GameObject keyObject;
     [SerializeField] private Transform keySpawnPos;
     [SerializeField] private Transform parent;
-    
-    
+
+    [SerializeField]
+    private AudioClip keyPingSFX;
+
+
 
     private GameObject spawnedKey;
 
@@ -27,6 +30,7 @@ public class ChestTest : MonoBehaviour
     public void OpenChest()
     {
         spawnedKey = GameObject.Instantiate(keyObject, keySpawnPos.position, keyObject.transform.rotation, parent);
+        SFXManager.instance.PlaySfxClip(keyPingSFX, transform, .01f);
 
         spawnedKey.SetActive(true);
 

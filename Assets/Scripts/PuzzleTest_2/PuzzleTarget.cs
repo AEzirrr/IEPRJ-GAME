@@ -8,6 +8,7 @@ public class PuzzleTarget : MonoBehaviour
     [SerializeField] private PatternChecker patternChecker;
     [SerializeField] private Material _newMaterial;
     [SerializeField] private Material _defaultMaterial;
+    [SerializeField] private GameObject clue;
 
     [SerializeField]
     private AudioClip noteSFX;
@@ -17,6 +18,7 @@ public class PuzzleTarget : MonoBehaviour
 
     void Start()
     {
+        clue.SetActive(false);
         _renderer = GetComponent<Renderer>();
         EventBroadcaster.Instance.AddObserver(EventNames.PuzzleTest_2.ON_RESET_TARGET, this.ResetMaterial);
     }
@@ -34,6 +36,7 @@ public class PuzzleTarget : MonoBehaviour
             this._renderer.material = this._newMaterial;
             patternChecker.AddNoteToSequence(noteValue);
             Debug.Log("TARGET HIT, NOTE:" + noteValue);
+            clue.SetActive(true);
         }
     }
 
@@ -51,7 +54,11 @@ public class PuzzleTarget : MonoBehaviour
         SFXManager.instance.PlaySfxClip(noteSFX, transform, .01f);
         this._renderer.material = this._newMaterial;
         patternChecker.AddNoteToSequence(noteValue);
+
+
+
         Debug.Log("TARGET HIT, NOTE:" + noteValue);
+        clue.SetActive(true);
 
         yield return new WaitForSeconds(1.0f); // Cooldown period
 
@@ -61,5 +68,6 @@ public class PuzzleTarget : MonoBehaviour
     private void ResetMaterial()
     {
         this._renderer.material = this._defaultMaterial;
+        clue.SetActive(false);
     }
 }
